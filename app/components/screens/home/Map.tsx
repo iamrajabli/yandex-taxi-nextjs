@@ -17,12 +17,21 @@ const center = {
 
 const Map: React.FC = () => {
 
+    const { from } = useTypedSelector(state => state.taxi)
+
 
     return (
         <div style={{ height: '100vh', width: '100%' }}>
             <GoogleMap
                 mapContainerStyle={containerStyle}
-                center={center}
+                center={
+                    from.location?.lat
+                        ? {
+                            lat: from.location?.lat,
+                            lng: from.location?.lng
+                        }
+                        : center
+                }
                 zoom={10}
                 options={{
                     zoomControl: false,
@@ -30,6 +39,7 @@ const Map: React.FC = () => {
                     keyboardShortcuts: false,
                     clickableIcons: false,
                 }}
+
             />
 
         </div>

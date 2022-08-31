@@ -1,7 +1,7 @@
 import { Coords } from "google-map-react";
 
 export type TypeFrom = {
-    locatition: Coords,
+    location: Coords,
     description: string
 }
 
