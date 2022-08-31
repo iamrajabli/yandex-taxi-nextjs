@@ -1,10 +1,12 @@
+import { Coords } from 'google-map-react';
 import React from 'react';
 import InputPlaces from '../../ui/InputPlaces';
 
+
 const FromInput: React.FC = () => {
 
-    const cbSuccess = () => {
-        console.log('success');
+    const cbSuccess = (address: string, location: Coords) => {
+        console.log(address, location);
 
     }
 

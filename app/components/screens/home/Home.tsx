@@ -15,7 +15,7 @@ const Home: React.FC = () => {
         <Layout title="Order Taxi">
             {isLoaded ? <Map /> : 'Loading...'}
 
-            <div style={{'zIndex' : 100}} className="absolute z-10 left-1/2 -translate-x-1/2 bottom-10 w-11/12">
+            <div style={{'zIndex' : 100}} className="absolute z-10 left-1/2 -translate-x-1/2 bottom-60 w-11/12">
                 <FromInput />
             </div>
 

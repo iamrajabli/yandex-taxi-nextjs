@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import PlacesAutocomplete from 'react-places-autocomplete';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { FiSearch } from 'react-icons/fi';
 import cn from 'classnames';
+import { Coords } from 'google-map-react';
 
 interface IInputPlaces {
-    cbSuccess: () => void;
+    cbSuccess: (address: string, location: Coords) => void;
     type: 'from' | 'to'
 }
 
@@ -20,11 +21,22 @@ const InputPlaces: React.FC<IInputPlaces> = ({ cbSuccess, type }) => {
         if (isFrom) setFocus()
     }, [isFrom])
 
+    const handleSelect = (address: string) => {
+        geocodeByAddress(address)
+            .then(results =>
+                getLatLng(results[0]))
+            .then(location => {
+                cbSuccess(address, location)
+                setAddress(address)
+            })
+            .catch(err => console.log('Error', err))
+    }
+
     return (
         <PlacesAutocomplete
             value={address}
             onChange={setAddress}
-            // onSelect={handleSelect}
+            onSelect={handleSelect}
             onError={err => console.log('Err', err)
             }>
             {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
@@ -51,8 +63,30 @@ const InputPlaces: React.FC<IInputPlaces> = ({ cbSuccess, type }) => {
                         })} />
 
                         {!isFrom && (
-                            <div className='absolute right-5 text-sm text-gray-400'> - min.</div>
+                            <div
+                                className='absolute right-5 text-sm text-gray-400'>
+                                - min.
+                            </div>
                         )}
+                    </div>
+
+                    <div className={cn('absolute w-full h-0 overflow-y-auto rounded-b-lg z-10', {
+                        'h-48': suggestions.length || loading
+                    })}>
+                        {loading && <div className='p-2 bg-white'>Loading...</div>}
+
+                        {
+                            suggestions.map((suggestion, idx) =>
+                                <div{...getSuggestionItemProps(suggestion, {
+                                    className: cn('cursor-pointer p-3', {
+                                        'bg-gray-100': suggestion.active,
+                                        'bg-white': !suggestion.active
+                                    })
+                                })} key={`loc ${idx}`} >
+                                    <span>{suggestion.description}</span>
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
             )}
