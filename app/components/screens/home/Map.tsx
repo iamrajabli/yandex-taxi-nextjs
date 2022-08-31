@@ -1,5 +1,6 @@
 import React from 'react';
 import { GoogleMap } from '@react-google-maps/api';
+import { useTypedSelector } from '../../../hooks/useTypedSelectors';
 
 
 
