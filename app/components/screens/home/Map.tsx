@@ -3,7 +3,6 @@ import { GoogleMap } from '@react-google-maps/api';
 import { useTypedSelector } from '../../../hooks/useTypedSelectors';
 
 
-
 const containerStyle = {
     width: '100%',
     height: '100%',
@@ -18,7 +17,6 @@ const center = {
 const Map: React.FC = () => {
 
     const { from } = useTypedSelector(state => state.taxi)
-
 
     return (
         <div style={{ height: '100vh', width: '100%' }}>
